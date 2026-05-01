@@ -5,6 +5,9 @@ import de.insureflow.customer_service.DTOs.CustomerResponse;
 import de.insureflow.customer_service.domain.Customer;
 import de.insureflow.customer_service.mapper.CustomerMapper;
 import de.insureflow.customer_service.service.CustomerService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,11 +28,17 @@ public class CustomerController {
         this.mapper = mapper;
     }
 
+    @Operation(summary = "Get all customers")
     @GetMapping
     List<CustomerResponse> getAllCustomers() {
         return service.fetchAllCustomers().stream().map(mapper::toResponse).toList();
     }
 
+    @Operation(summary = "Get customer by ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Customer found"),
+            @ApiResponse(responseCode = "404", description = "Customer not found")
+    })
     @GetMapping("/{id}")
     ResponseEntity<CustomerResponse> getCustomerById(@PathVariable UUID id) {
         return service.fetchCustomerById(id)
@@ -38,6 +47,9 @@ public class CustomerController {
                 .orElse(ResponseEntity.notFound().build()); // 404 customer not found
     }
 
+    @Operation(summary = "Create a new customer")
+    @ApiResponse(responseCode = "201", description = "Customer created")
+    @ApiResponse(responseCode = "409", description = "Email already exists")
     @PostMapping
     ResponseEntity<CustomerResponse> createNewCustomer(@RequestBody CustomerRequest customer) {
         Customer created = service.addNewCustomer(mapper.toEntity(customer));
