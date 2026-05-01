@@ -5,6 +5,7 @@ import de.insureflow.customer_service.DTOs.CustomerResponse;
 import de.insureflow.customer_service.domain.Customer;
 import de.insureflow.customer_service.mapper.CustomerMapper;
 import de.insureflow.customer_service.service.CustomerService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/customers")
+@Tag(name = "Customer Controller", description = "CRUD operations for customers")
 public class CustomerController {
 
     private final CustomerService service;
