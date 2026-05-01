@@ -1,11 +1,12 @@
-﻿# IntelliJ IDEA
+﻿# IntelliJ
 .idea/
 *.iml
 *.iws
 *.ipr
 out/
 
-# Maven
+# Maven (global fÃ¼r alle Ebenen)
+**/target/
 target/
 pom.xml.tag
 pom.xml.releaseBackup
@@ -20,9 +21,7 @@ buildNumber.properties
 # Compiled Java classes
 *.class
 
-# Log files
+# Logs & OS
 *.log
-
-# OS Dateien
 .DS_Store
 Thumbs.db
