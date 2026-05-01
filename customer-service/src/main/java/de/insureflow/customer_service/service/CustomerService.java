@@ -2,6 +2,7 @@ package de.insureflow.customer_service.service;
 
 import de.insureflow.customer_service.domain.Address;
 import de.insureflow.customer_service.domain.Customer;
+import de.insureflow.customer_service.exceptions.CustomerWithEmailAddressExistsException;
 import de.insureflow.customer_service.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,7 @@ public class CustomerService {
 
     public Customer addNewCustomer(Customer customer) {
         if(repo.existsByEmailAddress(customer.getEmailAddress()))
-            throw new IllegalArgumentException("Email already exists");
+            throw new CustomerWithEmailAddressExistsException(customer.getEmailAddress());
 
         for (Address address : customer.getAddress()) {
             address.setCustomer(customer);
